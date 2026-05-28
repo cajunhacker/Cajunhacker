@@ -1,0 +1,18 @@
+{{- /*
+  Override of PaperMod's home_info partial.
+  The site title is rendered by the header logo at top-left (with the unit
+  shoulder-sleeve insignia row underneath it), so we do not repeat the title
+  or the patches here — only the homeInfoParams content body and the social
+  icons footer.
+*/ -}}
+{{- with site.Params.homeInfoParams }}
+<article class="first-entry home-info">
+    <div class="entry-content md-content">
+        {{ $opts := dict "display" "block" }}
+        {{ .Content | $.Page.RenderString $opts }}
+    </div>
+    <footer class="entry-footer">
+        {{ partial "social_icons.html" (dict "align" site.Params.homeInfoParams.AlignSocialIconsTo) }}
+    </footer>
+</article>
+{{- end -}}

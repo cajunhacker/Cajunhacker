@@ -1,0 +1,77 @@
+{{- /*
+  Custom three-way theme switcher (Dark / Olive Drab / Light).
+  Runs after PaperMod's bootstrap script. Olive is the site default:
+  applied when the user has explicitly chosen it OR when no preference
+  has been stored yet. Dark/Light require an explicit choice.
+*/ -}}
+<script>
+  (function () {
+    try {
+      var pref = localStorage.getItem("pref-theme");
+      if (pref === "olive" || pref === null) {
+        document.documentElement.dataset.theme = "olive";
+      }
+    } catch (e) { /* private mode, etc. */ }
+  })();
+</script>
+
+<style>
+  /* Olive Drab theme — black text on military olive */
+  html[data-theme="olive"] {
+    --theme: rgb(107, 110, 70);
+    --entry: rgb(120, 125, 85);
+    --primary: rgb(0, 0, 0);
+    --secondary: rgb(35, 38, 20);
+    --tertiary: rgb(80, 85, 55);
+    --content: rgb(15, 15, 5);
+    --code-bg: rgb(85, 88, 55);
+    --code-block-bg: rgb(60, 63, 40);
+    --border: rgb(80, 85, 55);
+  }
+  html[data-theme="olive"] body { background: var(--theme); color: var(--primary); }
+  html[data-theme="olive"] .post-content a,
+  html[data-theme="olive"] .footer a,
+  html[data-theme="olive"] .menu a,
+  html[data-theme="olive"] .logo a { color: var(--primary); }
+  html[data-theme="olive"] .post-content code { background: var(--code-bg); }
+  html[data-theme="olive"] .site-disclaimer { color: var(--secondary); }
+
+  /* Hide PaperMod's built-in single toggle; we replace it with three buttons */
+  #theme-toggle { display: none !important; }
+
+  /* Three-way switcher styling — pinned to the far right of the header */
+  .cajun-theme-switcher {
+    display: inline-flex;
+    gap: 4px;
+    margin-left: auto;
+    padding-left: 10px;
+    align-items: center;
+    vertical-align: middle;
+    order: 999; /* push to end in flex containers */
+  }
+  .cajun-theme-switcher button {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid var(--tertiary);
+    background: var(--entry);
+    color: var(--primary);
+    font-size: 11px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 80ms ease, box-shadow 80ms ease;
+  }
+  .cajun-theme-switcher button:hover { transform: translateY(-1px); }
+  .cajun-theme-switcher button[aria-pressed="true"] {
+    outline: 2px solid var(--primary);
+    outline-offset: 1px;
+  }
+  /* Color swatches for each button */
+  .cajun-theme-switcher button[data-theme-set="dark"]  { background: rgb(29, 30, 32);  color: #fff; }
+  .cajun-theme-switcher button[data-theme-set="olive"] { background: rgb(107, 110, 70); color: #000; }
+  .cajun-theme-switcher button[data-theme-set="light"] { background: rgb(255, 255, 255); color: #000; }
+</style>

@@ -1,0 +1,163 @@
+{{- /*
+  Override of PaperMod's header partial.
+  Changes:
+   - Logo wordmark renders as "C@junH^ck3r" + a smaller "©" superscript.
+   - On every page, a row of unit shoulder-sleeve insignia is rendered
+     immediately below the logo, inside the same .logo block, so the patches
+     appear directly under the main C@junH^ck3r title at the top left.
+   - Everything else is unchanged from the theme partial.
+*/ -}}
+<header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            {{- $label_text := (site.Params.label.text | default site.Title) }}
+            {{- if site.Title }}
+            <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)" class="logo-wordmark">
+                {{- if site.Params.label.icon }}
+                {{- $img := resources.Get site.Params.label.icon }}
+                {{- if $img }}
+                    {{- $processableFormats := (slice "jpg" "jpeg" "png" "tif" "bmp" "gif") -}}
+                    {{- if hugo.IsExtended -}}
+                        {{- $processableFormats = $processableFormats | append "webp" -}}
+                    {{- end -}}
+                    {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
+                    {{- if and (in $processableFormats $img.MediaType.SubType) (eq $prod true)}}
+                        {{- if site.Params.label.iconHeight }}
+                            {{- $img = $img.Resize (printf "x%d" site.Params.label.iconHeight) }}
+                        {{ else }}
+                            {{- $img = $img.Resize "x30" }}
+                        {{- end }}
+                    {{- end }}
+                    <img src="{{ $img.Permalink }}" alt="" aria-label="logo"
+                        height="{{- site.Params.label.iconHeight | default "30" -}}">
+                {{- else }}
+                <img src="{{- site.Params.label.icon | absURL -}}" alt="" aria-label="logo"
+                    height="{{- site.Params.label.iconHeight | default "30" -}}">
+                {{- end -}}
+                {{- else if hasPrefix site.Params.label.iconSVG "<svg" }}
+                    {{ site.Params.label.iconSVG | safeHTML }}
+                {{- end -}}
+                <span class="logo-name">{{- $label_text -}}</span><span class="logo-copy" aria-hidden="true">&copy;</span>
+            </a>
+            {{- end }}
+
+            <div class="logo-patches" role="img" aria-label="Units served: 256th Infantry Brigade, 1st Cavalry Division, 10th Mountain Division, 3rd Infantry Division">
+                <img src="/images/patches/256th-infantry-brigade.svg" alt="256th Infantry Brigade SSI" title="256th Infantry Brigade">
+                <img src="/images/patches/1st-cavalry-division.svg" alt="1st Cavalry Division SSI" title="1st Cavalry Division">
+                <img src="/images/patches/10th-mountain-division.svg" alt="10th Mountain Division SSI" title="10th Mountain Division">
+                <img src="/images/patches/3rd-infantry-division.svg" alt="3rd Infantry Division SSI" title="3rd Infantry Division">
+            </div>
+
+            {{- $lsenabled := (or (not site.Params.disableThemeToggle) (and (not site.Params.disableLangToggle) (hugo.IsMultilingual))) }}
+            {{- if $lsenabled }}
+            <div class="logo-switches">
+                {{- if (not site.Params.disableThemeToggle) }}
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                {{- end }}
+
+                {{- if (not site.Params.disableLangToggle) }}
+                    {{- $lang := .Lang}}
+                    {{- with site.Home.Translations }}
+                    {{- $separator := or $label_text (not site.Params.disableThemeToggle)}}
+                    {{- if $separator }}<span class="nav-sep">|</span>{{ end }}
+                    <ul class="lang-menu">
+                        {{- range . -}}
+                        {{- if ne $lang .Lang }}
+                        <li>
+                            <a href="{{- .Permalink -}}" title="{{ .Language.Params.languageAltTitle | default (.Language.LanguageName | emojify) | default (.Lang | title) }}"
+                                aria-label="{{ .Language.LanguageName | default (.Lang | title) }}">
+                                {{- if (and site.Params.displayFullLangName (.Language.LanguageName)) }}
+                                {{- .Language.LanguageName | emojify -}}
+                                {{- else }}
+                                {{- .Lang | title -}}
+                                {{- end -}}
+                            </a>
+                        </li>
+                        {{- end -}}
+                        {{- end}}
+                    </ul>
+                    {{- end }}
+                {{- end }}
+            </div>
+            {{- end }}
+        </div>
+        {{- $currentPage := . }}
+        <ul id="menu" class="menu">
+            {{- range site.Menus.main }}
+            {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | absLangURL }}
+            {{- $page_url:= $currentPage.Permalink | absLangURL }}
+            {{- $is_search := eq (site.GetPage .KeyName).Layout `search` }}
+            <li>
+                <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }} {{- cond $is_search (" (Alt + /)" | safeHTMLAttr) ("" | safeHTMLAttr ) }}"
+                {{- cond $is_search (" accesskey=/" | safeHTMLAttr) ("" | safeHTMLAttr ) }}>
+                    <span {{- if eq $menu_item_url $page_url }} class="active" {{- end }}>
+                        {{- .Pre }}
+                        {{- .Name -}}
+                        {{ .Post -}}
+                    </span>
+                    {{- if (findRE "://" .URL) }}&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                    {{- end }}
+                </a>
+            </li>
+            {{- end }}
+        </ul>
+    </nav>
+</header>
+<style>
+  /* Cancel the theme's 0.55rem column-gap so the © sits flush to the wordmark */
+  .logo a.logo-wordmark { column-gap: 0; }
+
+  /* Smaller, raised copyright mark next to the wordmark */
+  .logo-wordmark .logo-copy {
+    font-size: 0.55em;
+    vertical-align: super;
+    margin-left: 1px;
+    opacity: 0.75;
+    font-weight: normal;
+    line-height: 1;
+  }
+
+  /* Unit patches rendered directly under the top-left logo on the home page.
+     The logo container in PaperMod is a flex row; we send the patches to the
+     next line and align them flush-left under the wordmark. */
+  .logo .logo-patches {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    margin: 4px 0 0 0;
+    order: 99; /* push to the end of the .logo flex row so it wraps below */
+  }
+  .logo .logo-patches img {
+    height: 36px;
+    width: auto;
+    display: block;
+  }
+</style>

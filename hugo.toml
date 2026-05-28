@@ -1,0 +1,130 @@
+baseURL = "https://cajunhacker.xyz/"
+languageCode = "en-us"
+title = "C@junH^ck3r"
+theme = "PaperMod"
+copyright = "© Scott Landry"
+
+enableRobotsTXT = true
+enableEmoji = false
+enableGitInfo = false
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+pagination.pagerSize = 10
+summaryLength = 40
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.highlight]
+    style = "github-dark"
+    lineNos = false
+    codeFences = true
+    guessSyntax = true
+    noClasses = true
+    tabWidth = 2
+  [markup.goldmark.renderer]
+    unsafe = false
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false
+
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+[minify]
+  disableXML = true
+  minifyOutput = true
+
+[params]
+  env = "production"
+  description = "Cybersecurity, self-hosting, homelab, and technical education from a retired Army Signal/Cyber officer."
+  keywords = ["cybersecurity", "self-hosting", "homelab", "linux", "proxmox", "cloudflare", "tailscale", "bug bounty"]
+  author = "Scott Landry"
+  defaultTheme = "auto"
+  disableThemeToggle = false
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  ShowRssButtonInSectionTermList = true
+  ShowToc = true
+  TocOpen = false
+  DateFormat = "January 2, 2006"
+  ShowFullTextinRSS = true
+  mainSections = ["posts"]
+
+  [params.homeInfoParams]
+    Title = "C@junH^ck3r©"
+    Content = """
+Practical cybersecurity, self-hosting, and homelab notes from a retired U.S. Army Signal/Cyber officer.
+
+This site is a working notebook: build logs, study notes, and field-tested write-ups. No hype, no fluff, no tracking.
+"""
+
+  [params.assets]
+    disableHLJS = true
+    disableFingerprinting = false
+    favicon = "/favicon.ico"
+    favicon16x16 = "/favicon-16x16.png"
+    favicon32x32 = "/favicon-32x32.png"
+    apple_touch_icon = "/apple-touch-icon.png"
+    safari_pinned_tab = "/favicon-32x32.png"
+
+  [params.label]
+    text = "C@junH^ck3r"
+
+[menu]
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    url = "/posts/"
+    weight = 10
+
+  [[menu.main]]
+    identifier = "education"
+    name = "Education"
+    url = "/education/"
+    weight = 20
+
+  [[menu.main]]
+    identifier = "projects"
+    name = "Projects"
+    url = "/projects/"
+    weight = 30
+
+  [[menu.main]]
+    identifier = "resources"
+    name = "Resources"
+    url = "/resources/"
+    weight = 40
+
+  [[menu.main]]
+    identifier = "categories"
+    name = "Categories"
+    url = "/categories/"
+    weight = 45
+
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 50
+
+  [[menu.main]]
+    identifier = "contact"
+    name = "Contact"
+    url = "/contact/"
+    weight = 60

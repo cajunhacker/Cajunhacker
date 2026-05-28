@@ -1,0 +1,68 @@
+{{- /*
+  Three-way theme switcher.
+  Injects Dark / Olive Drab / Light buttons next to the site title and wires
+  click handlers that persist the choice in localStorage.
+*/ -}}
+<script>
+  (function () {
+    var headerNav = document.querySelector(".header .nav") ||
+                    document.querySelector(".header-nav") ||
+                    document.querySelector(".header > nav") ||
+                    document.querySelector(".header");
+    if (!headerNav) return;
+
+    if (headerNav.querySelector(".cajun-theme-switcher")) return;
+
+    var switcher = document.createElement("span");
+    switcher.className = "cajun-theme-switcher";
+    switcher.setAttribute("role", "group");
+    switcher.setAttribute("aria-label", "Theme");
+
+    var themes = [
+      { id: "dark",  label: "D", title: "Dark (white text)" },
+      { id: "olive", label: "O", title: "Olive drab (black text)" },
+      { id: "light", label: "L", title: "Light (black text)" }
+    ];
+
+    themes.forEach(function (t) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.dataset.themeSet = t.id;
+      btn.title = t.title;
+      btn.setAttribute("aria-label", t.title);
+      btn.textContent = t.label;
+      btn.addEventListener("click", function () {
+        document.documentElement.dataset.theme = t.id;
+        try { localStorage.setItem("pref-theme", t.id); } catch (e) {}
+        updatePressed();
+      });
+      switcher.appendChild(btn);
+    });
+
+    headerNav.appendChild(switcher);
+
+    function updatePressed() {
+      var current = document.documentElement.dataset.theme || "auto";
+      switcher.querySelectorAll("button").forEach(function (b) {
+        b.setAttribute("aria-pressed", b.dataset.themeSet === current ? "true" : "false");
+      });
+    }
+    updatePressed();
+  })();
+</script>
+
+{{- /*
+  Site-wide legal disclaimer.
+  Renders below PaperMod's default footer on every page.
+  The full disclaimer lives at /resources/tools/#disclaimer.
+*/ -}}
+<aside class="site-disclaimer" role="contentinfo" aria-label="Legal disclaimer"
+       style="max-width: var(--main-width); margin: 0 auto 2rem auto; padding: 1rem 1.5rem; font-size: 0.78rem; line-height: 1.5; color: var(--secondary); border-top: 1px solid var(--border); text-align: center;">
+  <strong>Disclaimer:</strong>
+  All tools and techniques presented on this website are for
+  <strong>educational purposes only</strong>.
+  Pentesting and ethical hacking should be conducted only against systems for which you have
+  <strong>express, written permission from the owner</strong>.
+  Unauthorized testing is illegal in most jurisdictions.
+  Full disclaimer on the <a href="/resources/tools/#disclaimer">Tools page</a>.
+</aside>
