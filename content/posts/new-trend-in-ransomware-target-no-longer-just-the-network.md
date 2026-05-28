@@ -45,19 +45,19 @@ These ransomware cases do not involve known state-sponsored Advanced Persistent 
 
 ShinyHunters is reportedly behind the attack on Canvas. Nitrogen claims the attack on Foxconn. Anubis claims the attack on Signature Healthcare. Qilin claims the attack on Covenant Health which reportedly compromised 478,188 individuals.
 
-It is unlikely that the attacks are sponsored by nation-states. Instead, it looks like financially-motivated groups are using APT-like targeting discipline against highly Impactful sectors.
+It is unlikely that the attacks are sponsored by nation-states. Instead, it looks like financially-motivated groups are using APT-like targeting discipline against highly impactful sectors.
 
 ## Exposed Weaknesses
 
 The following weaknesses can be seen in most cases.
 
-First, Identity and Access Control remains the main point of entry. The majority of ransomware attacks start with stolen credentials, weak MFA, remote access vulnerabilities, misconfigured service accounts, and over-privileged users vs. Least-privilege best practices. In Canvas case, the problem reportedly started with support ticket workflow issues in Free-for-Teacher environment. Such low-trust workflows may become a starting point for larger-scale incidents when combined with access to production data.
+First, Identity and Access Control remains the main point of entry. The majority of ransomware attacks start with stolen credentials, weak MFA, remote access vulnerabilities, misconfigured service accounts, and over-privileged users vs. Least-privilege best practices. In the Canvas case, the problem reportedly started with support ticket workflow issues in the Free-for-Teacher environment. Such low-trust workflows may become a starting point for larger-scale incidents when combined with access to production data.
 
 Second, Segmentation is far from being adequate. Hospitals and payment processors must expect some degree of failure. Any attack that affects one environment will also affect payment APIs, clinical record systems, portals, and operational communication channels. This means the architecture is still too flat.
 
 Third, SaaS is not properly considered as a critical infrastructure. The Canvas case clearly shows that tenant boundaries, support workflows, admin panels, API exports, and identity integration require the same protection as on-premises domain controllers.
 
-Fourth, Data ex-filtration detection remains insufficient. Modern ransomware groups routinely perform data theft prior to encryption. If they can exfiltrate terabytes of data without being detected, endpoint protection is not sufficient anymore. One must ask, are baselines irrelevant these days? Or have agentic-AI models been out fooled by counter agentic-AI models. Organizations must monitor outbound traffic, cloud exports, impossible travel, API abuse, and logging to reconstruct what exactly happened to implement lessons learned for reference. Battle drills should be included, anonymously, executed with the rehearsal flare least blast radius. Each work shift should have a sharp threat detector, sharing information with all colleagues.
+Fourth, Data exfiltration detection remains insufficient. Modern ransomware groups routinely perform data theft prior to encryption. If they can exfiltrate terabytes of data without being detected, endpoint protection is not sufficient anymore. One must ask, are baselines irrelevant these days? Or have agentic-AI models been outfoxed by counter agentic-AI models? Organizations must monitor outbound traffic, cloud exports, impossible travel, API abuse, and logging — enough signal to reconstruct what happened after the fact and turn lessons learned into reference material for the next incident. Battle drills should run regularly, designed so the rehearsal itself carries the smallest possible blast radius. Each work shift should have a designated threat-watch role, with hand-off briefings to colleagues across shifts.
 
 Fifth, Backups are unreliable. As stated in CISA's ransomware guidance, offline backups and regular tests for restoration must be implemented because many ransomware variants try to destroy the recovery path. Otherwise, backup may turn out to be just a hope.
 
@@ -79,7 +79,7 @@ Finally, the ransom decision process should be planned in advance. The FBI advis
 
 ## Conclusion
 
-The latest trend in ransomware is not accidental. Attackers target organizations where availability of services, sensitive data, dependency on third-parties, and trust of the public intersect. The solution is not just about better malware detection. It is all about cyber-ecosystem resilient architecture which entails nonsense hardened IAM, segmented systems, Zero-trust ecosystems, Honey farms, irreverent and resistant end-point protections, SaaS monitoring, proven backups, rehearsed downtime procedures, and deliberate dogged C-Suite driven incident response.
+The latest trend in ransomware is not accidental. Attackers target organizations where availability of services, sensitive data, dependency on third-parties, and trust of the public intersect. The solution is not just about better malware detection. It is all about cyber-ecosystem resilient architecture which entails hardened IAM, segmented systems, Zero-trust ecosystems, Honey farms, resilient end-point protections, SaaS monitoring, proven backups, rehearsed downtime procedures, and deliberate dogged C-Suite driven incident response.
 
 Organizations that fare well during ransomware attacks are not the ones that never get hit. These are the organizations that can contain the damage, understand the threat, restore cleanly, and continue operations under the pressure.
 
